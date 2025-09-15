@@ -39,7 +39,8 @@ config = {
         "provider": "qdrant",
         "config": {
             "host": os.getenv("QDRANT_HOST", "localhost"),
-            "port": int(os.getenv("QDRANT_PORT", 6333))
+            "port": int(os.getenv("QDRANT_PORT", 6333)),
+            "embedding_model_dims": 384
         }
     },
     "graph_store": {
