@@ -1,0 +1,7 @@
+{
+  "messages": [
+    {"role": "user", "content": "My name is Alex and I love working on AI projects"},
+    {"role": "assistant", "content": "Nice to meet you Alex! It's great that you love working on AI projects."}
+  ],
+  "user_id": "test_user"
+}

@@ -6,5 +6,7 @@ litellm
 sentence-transformers
 qdrant-client
 neo4j
+langchain-neo4j
+rank-bm25
 psycopg2-binary
 python-dotenv

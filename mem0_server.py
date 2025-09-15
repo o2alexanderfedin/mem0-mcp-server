@@ -20,7 +20,7 @@ import uvicorn
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Configuration for Mem0 with Anthropic
+# Configuration for Mem0 with Anthropic and Neo4j
 config = {
     "llm": {
         "provider": "litellm",
@@ -40,6 +40,14 @@ config = {
         "config": {
             "host": os.getenv("QDRANT_HOST", "localhost"),
             "port": int(os.getenv("QDRANT_PORT", 6333))
+        }
+    },
+    "graph_store": {
+        "provider": "neo4j",
+        "config": {
+            "url": f"bolt://{os.getenv('NEO4J_HOST', 'localhost')}:{os.getenv('NEO4J_PORT', 7687)}",
+            "username": os.getenv("NEO4J_USER", "neo4j"),
+            "password": os.getenv("NEO4J_PASSWORD", "mem0password")
         }
     },
     "db": {
@@ -69,7 +77,7 @@ app.add_middleware(
 # Initialize Mem0
 try:
     memory = Memory.from_config(config_dict=config)
-    logger.info("Mem0 initialized successfully with Anthropic API")
+    logger.info("Mem0 initialized successfully with Anthropic API and Neo4j graph store")
 except Exception as e:
     logger.error(f"Failed to initialize Mem0: {e}")
     memory = None
@@ -98,7 +106,9 @@ async def health_check():
     return {
         "status": "healthy" if memory else "unhealthy",
         "timestamp": datetime.now().isoformat(),
-        "backend": "Anthropic Claude 3.5 Sonnet"
+        "backend": "Anthropic Claude 3.5 Sonnet",
+        "graph_store": "Neo4j",
+        "vector_store": "Qdrant"
     }
 
 @app.post("/memories")
