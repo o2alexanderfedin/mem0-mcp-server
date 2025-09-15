@@ -1,0 +1,10 @@
+mem0ai
+fastapi
+uvicorn[standard]
+pydantic
+litellm
+sentence-transformers
+qdrant-client
+neo4j
+psycopg2-binary
+python-dotenv
