@@ -1,0 +1,8 @@
+{
+  "messages": [
+    {"role": "user", "content": "I am Alexander Fedin, also known as Alex. I am working on AI Hive®, which is a universal swarm of AI agents"},
+    {"role": "assistant", "content": "Understood, Alexander Fedin (Alex), you're working on AI Hive®, a universal swarm of AI agents"}
+  ],
+  "user_id": "alexander_fedin",
+  "metadata": {"context": "current_project"}
+}

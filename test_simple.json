@@ -1,0 +1,8 @@
+{
+  "messages": [
+    {"role": "user", "content": "My manager is John Smith and we work together on the AI platform project"},
+    {"role": "assistant", "content": "Understood, you work with your manager John Smith on the AI platform project"}
+  ],
+  "user_id": "graph_test",
+  "metadata": {"context": "work_relationships"}
+}
