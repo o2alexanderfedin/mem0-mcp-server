@@ -161,18 +161,28 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
             response_text = f"Added memory: {content}"
 
             if isinstance(result, dict):
-                if "relations" in result and result["relations"]:
-                    relations = result["relations"]
-                    if relations.get("added_entities"):
-                        response_text += "\n\nGraph relationships created:"
-                        for rel in relations["added_entities"]:
-                            response_text += f"\n  - {rel.get('source', 'N/A')} → {rel.get('relationship', 'N/A')} → {rel.get('target', 'N/A')}"
-
+                # Extract memory IDs if available
                 if "results" in result and result["results"]:
                     for mem in result["results"]:
                         if "id" in mem:
                             response_text = f"Added memory [{mem['id']}]: {content}"
                             break
+
+                # Show graph relationships - handle nested list structure
+                if "relations" in result and result["relations"]:
+                    relations = result["relations"]
+                    if relations.get("added_entities") and relations["added_entities"]:
+                        response_text += "\n\nGraph relationships created:"
+                        for rel_item in relations["added_entities"]:
+                            # Each rel_item is a list containing a dict
+                            if isinstance(rel_item, list) and rel_item:
+                                rel = rel_item[0] if isinstance(rel_item[0], dict) else {}
+                            elif isinstance(rel_item, dict):
+                                rel = rel_item
+                            else:
+                                continue
+                            if rel:
+                                response_text += f"\n  - {rel.get('source', 'N/A')} → {rel.get('relationship', 'N/A')} → {rel.get('target', 'N/A')}"
 
             return [types.TextContent(type="text", text=response_text)]
 
