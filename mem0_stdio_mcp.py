@@ -195,11 +195,16 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
                 limit=10
             )
 
-            if results:
-                result_text = f"Found {len(results)} memories:\n"
-                for mem in results:
-                    result_text += f"- [{mem.get('id', 'N/A')}] {mem.get('memory', mem.get('text', 'N/A'))}\n"
-                return [types.TextContent(type="text", text=result_text)]
+            if results and isinstance(results, dict):
+                memories_list = results.get("results", [])
+                if memories_list:
+                    result_text = f"Found {len(memories_list)} memories:\n"
+                    for mem in memories_list:
+                        score = mem.get('score', 0)
+                        result_text += f"- [{mem.get('id', 'N/A')}] {mem.get('memory', mem.get('text', 'N/A'))} (score: {score:.2f})\n"
+                    return [types.TextContent(type="text", text=result_text)]
+                else:
+                    return [types.TextContent(type="text", text="No memories found matching your query")]
             else:
                 return [types.TextContent(type="text", text="No memories found matching your query")]
 
